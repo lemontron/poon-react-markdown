@@ -16,27 +16,28 @@ const Markdown = ({content}) => {
 	};
 
 	lines.forEach((line, index) => {
+		const key = `${index}-${line}`;
 		if (line.startsWith('# ')) {
 			pushCurrentList(index);
-			elements.push(createElement('h1', {key: index}, line.slice(2)));
+			elements.push(createElement('h1', {'key': key}, line.slice(2)));
 		} else if (line.startsWith('## ')) {
 			pushCurrentList(index);
-			elements.push(createElement('h2', {key: index}, line.slice(3)));
+			elements.push(createElement('h2', {'key': key}, line.slice(3)));
 		} else if (line.startsWith('### ')) {
 			pushCurrentList(index);
-			elements.push(createElement('h3', {key: index}, line.slice(4)));
+			elements.push(createElement('h3', {'key': key}, line.slice(4)));
 		} else if (line.startsWith('- ')) {
-			currentListItems.push(createElement('li', {key: index}, line.slice(2)));
+			currentListItems.push(createElement('li', {'key': key}, line.slice(2)));
 		} else if (line.match(/\[(.+)\]\((.+)\)/)) {
 			pushCurrentList(index);
 			const match = line.match(/\[(.+)\]\((.+)\)/);
-			elements.push(createElement('p', {key: index}, createElement('a', {href: match[2]}, match[1])));
+			elements.push(createElement('p', {'key': key}, createElement('a', {href: match[2]}, match[1])));
 		} else if (line.trim() === '') {
 			pushCurrentList(index);
-			elements.push(createElement('br', {key: index}));
+			elements.push(createElement('br', {'key': key}));
 		} else {
 			pushCurrentList(index);
-			elements.push(createElement('p', {key: index}, line));
+			elements.push(createElement('p', {'key': key}, line));
 		}
 	});
 
